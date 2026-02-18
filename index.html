@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Surya Tiles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="header">
+      <div class="logo">ART TILE CERAMICS</div>
+
+      <nav id="nav">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#products" class="nav-link">Products</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#calculator" class="nav-link">Calculator</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Art in Every Floor</h1>
+        <p>Premium quality • Best price • Fast delivery</p>
+        <a href="#products" class="btn">Explore Collection</a>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+      <h2>Our Collection</h2>
+
+      <div class="grid">
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+          />
+          <h3>Premium Floor Tile</h3>
+          <button onclick="sendWhatsApp('Premium Floor Tile')">
+            View Designs
+          </button>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1592928302636-c83cf1e1c887"
+          />
+          <h3>Kitchen Wall Tile</h3>
+          <button onclick="sendWhatsApp('Kitchen Wall Tile')">Enquire</button>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1618220179428-22790b461013"
+            alt="img3"
+          />
+          <h3>Bathroom Tile</h3>
+          <button onclick="sendWhatsApp('Bathroom Tile')">Enquire</button>
+        </div>
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+          />
+          <h3>Premium Floor Tile</h3>
+          <button onclick="sendWhatsApp('Premium Floor Tile')">Enquire</button>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1592928302636-c83cf1e1c887"
+          />
+          <h3>Elivation Wall Tile</h3>
+          <button onclick="sendWhatsApp('Kitchen Wall Tile')">Enquire</button>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1618220179428-22790b461013"
+            alt="img3"
+          />
+          <h3>Parking Tile</h3>
+          <button onclick="sendWhatsApp('Bathroom Tile')">Enquire</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="light">
+      <h2>About Us</h2>
+      <p>
+        Where artistry meets durability. At Art tile ceramics, we don’t just
+        sell tiles; we provide the foundation for your dream spaces. With an
+        collection of over 1000+ designs
+      </p>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <h2>Our Services</h2>
+      <div class="grid">
+        <div class="service">🚚 Home Delivery</div>
+        <div class="service">📦 Bulk Orders</div>
+        <div class="service">👷 Contractor Support</div>
+        <div class="service">📐 Tile Estimation</div>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section id="calculator" class="light">
+      <h2>Tile Calculator</h2>
+
+      <div class="calc-box">
+        <input type="number" id="length" placeholder="Length (ft)" />
+        <input type="number" id="width" placeholder="Width (ft)" />
+        <button onclick="calculateTiles()">Calculate</button>
+        <p id="result"></p>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <h2>Recent Works</h2>
+      <div class="grid gallery">
+        <img
+          src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+        />
+        <img src="Home page img 1.webp" />
+        <img
+          src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+        />
+        <img src="Home page img 1.webp" />
+      </div>
+    </section>
+
+    <!--<section id="contact" class="contact-section">
+      <h2>Contact Us</h2>
+
+      <div class="contact-container">
+        <div class="contact-info">
+          <p>
+            <span class="icon"><i class="fa-solid fa-phone"></i> </span>
+            <strong>Phone:</strong> 63832 15654
+          </p>
+
+          <p>
+            <span class="icon"
+              ><i
+                style="font-size: 25px"
+                class="fa-brands fa-square-whatsapp"
+              ></i
+            ></span>
+            <strong>WhatsApp:</strong> 81100 43001
+          </p>
+
+          <p>
+            <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
+            <strong>Address:</strong><br />
+            101/1D, Madathur Pirivu,<br />
+            Dhali Main Road,<br />
+            Udumalpet - 642 154.
+          </p>
+
+          <p>
+            <span class="icon"><i class="fa-solid fa-business-time"></i></span>
+            <strong>Working Hours:</strong><br />
+            Mon - Sat : 9AM To 7PM<br />
+            Sunday : 10AM To 6PM
+          </p>
+
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps?q=Udumalpet%20642%20154&output=embed"
+              width="100%"
+              height="250"
+              style="border: 0"
+              loading="lazy"
+            >
+            </iframe>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send Your Enquiry</h3>
+
+          <form onsubmit="sendMessage(event)">
+            <input type="text" id="name" placeholder="Your Name" required />
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Your Phone Number"
+              required
+            />
+            <textarea
+              id="message"
+              rows="5"
+              placeholder="Your Comment / Requirement"
+              required
+            ></textarea>
+            <button type="submit">Submit</button>
+          </form>
+
+          <p id="formResponse"></p>
+        </div>
+      </div>
+    </section>
+ -->
+
+    <section id="contact" class="contact-section">
+      <h2>Contact Us</h2>
+
+      <div class="contact-container">
+        <!-- LEFT SIDE : COMMENT FORM -->
+        <div class="contact-form">
+          <h3>Send Your Enquiry</h3>
+
+          <form onsubmit="sendMessage(event)">
+            <input type="text" id="name" placeholder="Your Name" required />
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Your Phone Number"
+              required
+            />
+            <textarea
+              id="message"
+              rows="5"
+              placeholder="Your Comment / Requirement"
+              required
+            ></textarea>
+            <button type="submit">Submit</button>
+          </form>
+
+          <p id="formResponse"></p>
+        </div>
+
+        <!-- RIGHT SIDE : CONTACT INFO -->
+        <div class="contact-info">
+          <p>
+            <i class="fa-solid fa-phone"></i>
+            <strong> Phone:</strong> 63832 15654
+          </p>
+
+          <p>
+            <i class="fa-brands fa-whatsapp"></i>
+            <strong> WhatsApp:</strong> 81100 43001
+          </p>
+
+          <p>
+            <i class="fa-solid fa-location-dot"></i>
+            <strong> Address:</strong><br />
+            101/1D, Madathur Pirivu,<br />
+            Dhali Main Road,<br />
+            Udumalpet - 642 154.
+          </p>
+
+          <p>
+            <i class="fa-solid fa-clock"></i>
+            <strong> Working Hours:</strong><br />
+            Mon - Sat : 9AM To 7PM<br />
+            Sunday : 10AM To 6PM
+          </p>
+        </div>
+      </div>
+
+      <!-- FULL WIDTH MAP -->
+      <div class="map-full">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4826.475561329752!2d77.22332807583665!3d10.542422263464749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTDCsDMyJzMyLjciTiA3N8KwMTMnMzMuMyJF!5e1!3m2!1sen!2sin!4v1771433571897!5m2!1sen!2sin"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </section>
+
+    <a
+      class="whatsapp-float"
+      onclick="sendWhatsApp('Hello, I want tiles details')"
+    >
+      <i class="fa-solid fa-phone"></i>
+    </a>
+
+    <footer>
+      <p>&copy; 2026 Art Tile Ceramics. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
