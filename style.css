@@ -11,11 +11,16 @@ body {
   line-height: 1.6;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 /* HEADER */
 header {
   position: sticky;
   top: 0;
-  background: #111;
+  background: #7209b7;
   color: white;
   padding: 18px 40px;
   display: flex;
@@ -50,12 +55,12 @@ nav {
   bottom: -5px;
   width: 0%;
   height: 2px;
-  background: orange;
+  background: #7209b7;
   transition: 0.4s;
 }
 
 .nav-link:hover {
-  color: orange;
+  color: white;
 }
 .nav-link:hover::after {
   width: 100%;
@@ -90,7 +95,7 @@ nav {
 .btn {
   display: inline-block;
   margin-top: 20px;
-  background: orange;
+  background: #7209b7;
   padding: 12px 25px;
   color: white;
   text-decoration: none;
@@ -109,7 +114,7 @@ section {
   text-align: center;
 }
 .light {
-  background: #f5f5f5;
+  background: #f8e2d4;
 }
 
 /* GRID */
@@ -161,14 +166,14 @@ section {
 }
 
 .card button:hover {
-  background: orange;
+  background: #7209b7;
   transform: scale(1.05);
 }
 
 /* SERVICES */
 .service {
-  background: orange;
-  color: black;
+  background: #7209b7;
+  color: white;
   padding: 20px;
   border-radius: 8px;
   width: 250px;
@@ -178,6 +183,50 @@ section {
   justify-content: center; /* Horizontal center */
   align-items: center; /* Vertical center */
   text-align: center;
+}
+a {
+  text-decoration: none;
+}
+
+/* ================= SERVICES HOVER EFFECT ================= */
+#services .service {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Shine animation layer */
+#services .service::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+
+/* Hover effect */
+#services .service:hover {
+  cursor: pointer;
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 18px 35px #b984db;
+}
+
+/* Shine move */
+#services .service:hover::before {
+  transform: translateX(120%);
+}
+
+/* Press effect */
+#services .service:active {
+  transform: scale(0.97);
 }
 
 /* CONTACT */
@@ -223,7 +272,11 @@ section {
 }
 
 .contact-form button:hover {
-  background: orange;
+  background: #7209b7;
+}
+
+.contact-info {
+  margin-top: 50px;
 }
 
 .contact-info p {
@@ -232,7 +285,7 @@ section {
 }
 
 .contact-info i {
-  color: orange;
+  color: #7209b7;
   margin-right: 8px;
 }
 
@@ -273,4 +326,47 @@ footer {
   .menu-toggle {
     display: block;
   }
+}
+
+/* ================= PRODUCT BUTTON GLITTER EFFECT ================= */
+#products .card button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #000, #222);
+  color: white;
+  border-radius: 25px;
+  transition: all 0.35s ease;
+}
+
+/* Glitter shine layer */
+#products .card button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  transition: 0.6s;
+}
+
+/* Hover effects */
+#products .card button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* Shine animation */
+#products .card button:hover::before {
+  left: 120%;
+}
+
+/* Click feel */
+#products .card button:active {
+  transform: scale(0.95);
 }
