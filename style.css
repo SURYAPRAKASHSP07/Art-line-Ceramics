@@ -400,9 +400,11 @@ footer {
 
 /* Image inside */
 #backToTop img {
-  width: 26px;
-  height: 26px;
-  filter: brightness(0) invert(1);
+  width: 130%;
+  height: 130%;
+  object-fit: fill;
+  border-radius: 50px;
+  /* filter: brightness(0) invert(1); */
   transition: transform 0.3s ease;
 }
 
@@ -414,14 +416,14 @@ footer {
 }
 
 /* Hover Effect */
-#backToTop:hover {
+/* #backToTop:hover {
   transform: translateY(-6px) scale(1.08);
   box-shadow: 0 15px 35px rgba(255, 60, 0, 0.5);
 }
 
 #backToTop:hover img {
   transform: translateY(-3px);
-}
+} */
 
 /* Mobile Adjust */
 @media (max-width: 768px) {
