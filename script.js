@@ -57,3 +57,16 @@ backToTop.addEventListener("click", function (e) {
     behavior: "smooth",
   });
 });
+
+// Footer Fade Animation
+const footer = document.querySelector(".modern-footer");
+
+window.addEventListener("scroll", () => {
+  const footerPosition = footer.getBoundingClientRect().top;
+  const screenPosition = window.innerHeight;
+
+  if (footerPosition < screenPosition - 100) {
+    footer.style.opacity = "1";
+    footer.style.transform = "translateY(0)";
+  }
+});
