@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Tile Visualizer</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* ROOM GALLERY */
+
+      #gallery {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .thumb {
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+        border: 3px solid white;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .thumb:hover {
+        transform: scale(1.05);
+        border-color: #007bff;
+      }
+
+      /* VISUALIZER */
+
+      .container {
+        position: relative;
+        width: 90vw;
+        max-width: 900px;
+        aspect-ratio: 4/3;
+        background: white;
+        border: 1px solid #ccc;
+        overflow: hidden;
+      }
+
+      #selectedImg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 2;
+      }
+
+      /* GRID */
+
+      #grid {
+        position: absolute;
+
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+
+        left: 0;
+        top: 0;
+
+        width: 300px;
+        height: 200px;
+
+        z-index: 1;
+
+        transform-origin: center;
+      }
+
+      .cell {
+        border: 0.2px solid rgba(0, 0, 0, 0.15);
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
+      }
+
+      /* TILE CAROUSEL */
+
+      .carousel-container {
+        width: 90vw;
+        max-width: 900px;
+        margin-top: 20px;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .carousel {
+        display: flex;
+        gap: 10px;
+
+        overflow-x: auto;
+
+        scroll-behavior: smooth;
+
+        padding: 10px;
+
+        background: white;
+
+        border-radius: 6px;
+      }
+
+      .tile-thumb {
+        width: 120px;
+        height: 120px;
+
+        cursor: pointer;
+
+        border-radius: 6px;
+
+        border: 2px solid #ddd;
+
+        object-fit: cover;
+
+        flex-shrink: 0;
+      }
+
+      .tile-thumb:hover {
+        border-color: #007bff;
+      }
+
+      /* CONTROLS */
+
+      .controls {
+        margin-top: 20px;
+
+        width: 90vw;
+        max-width: 900px;
+
+        background: white;
+
+        padding: 15px;
+
+        border-radius: 8px;
+      }
+
+      .control-group {
+        margin: 10px 0;
+      }
+
+      label {
+        font-size: 14px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+      }
+
+      button {
+        padding: 10px 15px;
+
+        cursor: pointer;
+
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ROOM SELECTION -->
+
+    <div id="page1">
+      <h2>Select Room</h2>
+
+      <div id="gallery"></div>
+    </div>
+
+    <!-- VISUALIZER -->
+
+    <div id="page2" class="hidden">
+      <h2>Tile Visualizer</h2>
+
+      <div class="container">
+        <div id="grid">
+          <script>
+            for (let i = 0; i < 20; i++) {
+              document.write('<div class="cell"></div>');
+            }
+          </script>
+        </div>
+
+        <img id="selectedImg" />
+      </div>
+
+      <h3>Select Tile Design</h3>
+
+      <div class="carousel-container">
+        <button onclick="scrollTiles(-200)">◀</button>
+
+        <div class="carousel" id="tileCarousel"></div>
+
+        <button onclick="scrollTiles(200)">▶</button>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label>Move X</label>
+          <input type="range" id="moveX" min="-500" max="500" value="0" />
+        </div>
+
+        <div class="control-group">
+          <label>Move Y</label>
+          <input type="range" id="moveY" min="-500" max="500" value="0" />
+        </div>
+
+        <div class="control-group">
+          <label>Scale</label>
+          <input
+            type="range"
+            id="scale"
+            min="0.2"
+            max="3"
+            step="0.1"
+            value="1"
+          />
+        </div>
+
+        <div class="control-group">
+          <label>Tilt X</label>
+          <input type="range" id="tiltX" min="-90" max="90" value="0" />
+        </div>
+
+        <div class="control-group">
+          <label>Tilt Y</label>
+          <input type="range" id="tiltY" min="-90" max="90" value="0" />
+        </div>
+
+        <div class="control-group">
+          <label>Rotation</label>
+          <input type="range" id="rotate" min="-180" max="180" value="0" />
+        </div>
+
+        <button onclick="location.reload()">Back</button>
+      </div>
+    </div>
+
+    <script>
+      /* ADD ROOM IMAGE PATHS */
+
+      const rooms = ["room.png", "room.png", "room.png", "room.png"];
+
+      /* ADD TILE IMAGE PATHS */
+
+      const tiles = [
+        "room.png",
+        "Vadivelu.jpg",
+        "Home page img 2.webp",
+        "Home page img 1.webp",
+        "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+        "Screenshot 2026-02-26 214133.png",
+        "room.png",
+        "Vadivelu.jpg",
+        "Home page img 2.webp",
+        "Home page img 1.webp",
+        "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+        "Screenshot 2026-02-26 214133.png",
+      ];
+
+      const gallery = document.getElementById("gallery");
+      const tileCarousel = document.getElementById("tileCarousel");
+
+      const page1 = document.getElementById("page1");
+      const page2 = document.getElementById("page2");
+
+      const selectedImg = document.getElementById("selectedImg");
+
+      const grid = document.getElementById("grid");
+
+      /* ROOM GALLERY */
+
+      rooms.forEach((src) => {
+        const img = document.createElement("img");
+
+        img.src = src;
+
+        img.className = "thumb";
+
+        img.onclick = () => {
+          selectedImg.src = src;
+
+          page1.classList.add("hidden");
+
+          page2.classList.remove("hidden");
+        };
+
+        gallery.appendChild(img);
+      });
+
+      /* SAFE IMAGE LOADER */
+
+      function applyTile(url) {
+        const img = new Image();
+
+        img.onload = function () {
+          document.querySelectorAll(".cell").forEach((cell) => {
+            cell.style.backgroundImage = `url("${url}")`;
+          });
+        };
+
+        img.onerror = function () {
+          alert("This tile image format is not supported by your browser.");
+        };
+
+        img.src = url;
+      }
+
+      /* TILE CAROUSEL */
+
+      tiles.forEach((src) => {
+        const img = document.createElement("img");
+
+        img.src = src;
+
+        img.className = "tile-thumb";
+
+        img.onclick = () => {
+          applyTile(src);
+        };
+
+        tileCarousel.appendChild(img);
+      });
+
+      function scrollTiles(value) {
+        tileCarousel.scrollLeft += value;
+      }
+
+      /* GRID CONTROLS */
+
+      const controls = ["moveX", "moveY", "scale", "tiltX", "tiltY", "rotate"];
+
+      controls.forEach((id) => {
+        document.getElementById(id).addEventListener("input", updateGrid);
+      });
+
+      function updateGrid() {
+        const x = document.getElementById("moveX").value;
+        const y = document.getElementById("moveY").value;
+        const scale = document.getElementById("scale").value;
+        const tiltX = document.getElementById("tiltX").value;
+        const tiltY = document.getElementById("tiltY").value;
+        const rotate = document.getElementById("rotate").value;
+
+        grid.style.transform = `
+translate(${x}px,${y}px)
+scale(${scale})
+perspective(1000px)
+rotateX(${tiltX}deg)
+rotateY(${tiltY}deg)
+rotateZ(${rotate}deg)
+`;
+      }
+
+      /* ZOOM LOCK */
+
+      document.addEventListener(
+        "wheel",
+        function (e) {
+          if (e.ctrlKey) {
+            e.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+
+      document.addEventListener("keydown", function (e) {
+        if (
+          e.ctrlKey &&
+          (e.key === "+" || e.key === "-" || e.key === "=" || e.key === "0")
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener(
+        "touchmove",
+        function (e) {
+          if (e.scale !== 1) {
+            e.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
+</html>
