@@ -2,63 +2,112 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Tile Visualizer</title>
 
     <style>
-      body {
-        font-family: sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: #f0f0f0;
-        margin: 0;
-        padding: 20px;
+      :root {
+        --primary: #7209b7;
+        --secondary: #b984db;
+        --bg: #f6f3fb;
       }
 
-      .hidden {
-        display: none;
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          Segoe UI,
+          sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: #333;
+      }
+
+      /* HEADER */
+
+      header {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 18px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      /* WRAPPER */
+
+      .wrapper {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
       }
 
       /* ROOM GALLERY */
 
       #gallery {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 25px;
       }
 
       .thumb {
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        height: 220px;
+        border-radius: 12px;
         cursor: pointer;
-        border: 3px solid white;
-        border-radius: 8px;
         object-fit: cover;
+        transition: 0.3s;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
       }
 
       .thumb:hover {
         transform: scale(1.05);
-        border-color: #007bff;
       }
 
       /* VISUALIZER */
 
       .container {
         position: relative;
-        width: 90vw;
+        width: 100%;
         max-width: 900px;
+        margin: auto;
         aspect-ratio: 4/3;
-        background: white;
-        border: 1px solid #ccc;
+        background: rgb(0, 0, 0);
+        border-radius: 12px;
         overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        margin-top: 30px;
       }
+
+      /* GRID */
+
+      #grid {
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        left: 0;
+        top: 0;
+        width: 300px;
+        height: 200px;
+        z-index: 1;
+        transform-origin: center;
+      }
+
+      .cell {
+        border: 0.05px solid rgba(255, 255, 255, 0.15);
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
+      }
+
+      /* ROOM IMAGE */
 
       #selectedImg {
         position: absolute;
@@ -68,41 +117,18 @@
         z-index: 2;
       }
 
-      /* GRID */
-
-      #grid {
-        position: absolute;
-
-        display: grid;
-
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-
-        left: 0;
-        top: 0;
-
-        width: 300px;
-        height: 200px;
-
-        z-index: 1;
-
-        transform-origin: center;
-      }
-
-      .cell {
-        border: 0.2px solid rgba(0, 0, 0, 0.15);
-        background-size: cover;
-        background-position: center;
-        background-repeat: repeat;
-      }
-
       /* TILE CAROUSEL */
 
-      .carousel-container {
-        width: 90vw;
-        max-width: 900px;
-        margin-top: 20px;
+      .carousel-wrapper {
+        margin-top: 30px;
+      }
 
+      .carousel-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .carousel-container {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -110,179 +136,267 @@
 
       .carousel {
         display: flex;
-        gap: 10px;
-
         overflow-x: auto;
-
-        scroll-behavior: smooth;
-
+        gap: 12px;
         padding: 10px;
-
+        scroll-behavior: smooth;
         background: white;
-
-        border-radius: 6px;
+        border-radius: 10px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
       }
 
       .tile-thumb {
-        width: 120px;
-        height: 120px;
-
+        width: 110px;
+        height: 110px;
+        border-radius: 8px;
         cursor: pointer;
-
-        border-radius: 6px;
-
-        border: 2px solid #ddd;
-
+        border: 3px solid transparent;
         object-fit: cover;
-
+        transition: 0.3s;
         flex-shrink: 0;
       }
 
       .tile-thumb:hover {
-        border-color: #007bff;
+        border-color: var(--primary);
+        transform: scale(1.05);
+      }
+
+      /* BUTTONS */
+
+      button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--secondary);
       }
 
       /* CONTROLS */
 
       .controls {
-        margin-top: 20px;
-
-        width: 90vw;
-        max-width: 900px;
-
+        margin-top: 35px;
         background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      }
 
-        padding: 15px;
+      .controls h3 {
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
 
-        border-radius: 8px;
+      .control-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
       }
 
       .control-group {
-        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
       }
 
-      label {
-        font-size: 14px;
+      .control-group label {
+        font-weight: 600;
+        margin-bottom: 6px;
       }
+
+      /* MODERN SLIDER */
 
       input[type="range"] {
         width: 100%;
+        height: 6px;
+        border-radius: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        outline: none;
       }
 
-      button {
-        padding: 10px 15px;
+      /* slider thumb */
 
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid var(--primary);
         cursor: pointer;
+        transition: 0.2s;
+      }
 
-        background: #007bff;
+      input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
 
-        color: white;
+      .back-btn {
+        margin-top: 20px;
+        background: #444;
+      }
 
-        border: none;
+      /* RESPONSIVE */
 
-        border-radius: 4px;
+      @media (max-width: 900px) {
+        #gallery {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .thumb {
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        #gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .thumb {
+          height: 190px;
+        }
+
+        .tile-thumb {
+          width: 85px;
+          height: 85px;
+        }
+      }
+
+      .hidden {
+        display: none;
       }
     </style>
   </head>
 
   <body>
-    <!-- ROOM SELECTION -->
+    <header>Tile Visualizer</header>
 
-    <div id="page1">
-      <h2>Select Room</h2>
+    <div class="wrapper">
+      <!-- PAGE 1 -->
 
-      <div id="gallery"></div>
-    </div>
+      <div id="page1">
+        <h2>Select Room</h2>
 
-    <!-- VISUALIZER -->
-
-    <div id="page2" class="hidden">
-      <h2>Tile Visualizer</h2>
-
-      <div class="container">
-        <div id="grid">
-          <script>
-            for (let i = 0; i < 20; i++) {
-              document.write('<div class="cell"></div>');
-            }
-          </script>
-        </div>
-
-        <img id="selectedImg" />
+        <div id="gallery"></div>
       </div>
 
-      <h3>Select Tile Design</h3>
+      <!-- PAGE 2 -->
 
-      <div class="carousel-container">
-        <button onclick="scrollTiles(-200)">◀</button>
+      <div id="page2" class="hidden">
+        <div class="container">
+          <div id="grid">
+            <script>
+              for (let i = 0; i < 20; i++) {
+                document.write('<div class="cell"></div>');
+              }
+            </script>
+          </div>
 
-        <div class="carousel" id="tileCarousel"></div>
-
-        <button onclick="scrollTiles(200)">▶</button>
-      </div>
-
-      <div class="controls">
-        <div class="control-group">
-          <label>Move X</label>
-          <input type="range" id="moveX" min="-500" max="500" value="0" />
+          <img id="selectedImg" />
         </div>
 
-        <div class="control-group">
-          <label>Move Y</label>
-          <input type="range" id="moveY" min="-500" max="500" value="0" />
+        <!-- TILE CAROUSEL -->
+
+        <div class="carousel-wrapper">
+          <div class="carousel-title">Select Tile Design</div>
+
+          <div class="carousel-container">
+            <button onclick="scrollTiles(-200)">◀</button>
+
+            <div class="carousel" id="tileCarousel"></div>
+
+            <button onclick="scrollTiles(200)">▶</button>
+          </div>
         </div>
 
-        <div class="control-group">
-          <label>Scale</label>
-          <input
-            type="range"
-            id="scale"
-            min="0.2"
-            max="3"
-            step="0.1"
-            value="1"
-          />
-        </div>
+        <!-- CONTROLS -->
 
-        <div class="control-group">
-          <label>Tilt X</label>
-          <input type="range" id="tiltX" min="-90" max="90" value="0" />
-        </div>
+        <div class="controls">
+          <h3>Adjust Tiles</h3>
 
-        <div class="control-group">
-          <label>Tilt Y</label>
-          <input type="range" id="tiltY" min="-90" max="90" value="0" />
-        </div>
+          <div class="control-grid">
+            <div class="control-group">
+              <label>Move X</label>
+              <input type="range" id="moveX" min="-500" max="500" value="0" />
+            </div>
 
-        <div class="control-group">
-          <label>Rotation</label>
-          <input type="range" id="rotate" min="-180" max="180" value="0" />
-        </div>
+            <div class="control-group">
+              <label>Move Y</label>
+              <input type="range" id="moveY" min="-500" max="500" value="0" />
+            </div>
 
-        <button onclick="location.reload()">Back</button>
+            <div class="control-group">
+              <label>Scale</label>
+              <input
+                type="range"
+                id="scale"
+                min="0.2"
+                max="3"
+                step="0.1"
+                value="1"
+              />
+            </div>
+
+            <div class="control-group">
+              <label>Tilt X</label>
+              <input type="range" id="tiltX" min="-90" max="90" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Tilt Y</label>
+              <input type="range" id="tiltY" min="-90" max="90" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Rotation</label>
+              <input type="range" id="rotate" min="-180" max="180" value="0" />
+            </div>
+          </div>
+
+          <button class="back-btn" onclick="location.reload()">Back</button>
+        </div>
       </div>
     </div>
 
     <script>
-      /* ADD ROOM IMAGE PATHS */
+      /* ADD ROOM IMAGES */
 
-      const rooms = ["room.png", "room.png", "room.png", "room.png"];
+      const rooms = [
+        "room.png",
+        "room.png",
+        "room.png",
+        "room.png",
+        "room.png",
+      ];
 
-      /* ADD TILE IMAGE PATHS */
+      /* ADD TILE IMAGES */
 
       const tiles = [
-        "room.png",
-        "Vadivelu.jpg",
-        "Home page img 2.webp",
+        "Tile Image 1.jpg",
+        "Tile Image 2.jpg",
+        "Tile Image 3.jpg",
+        "Tile Image 4.jpg",
         "Home page img 1.webp",
+        "blue-marble-floor-tile-texture-seamless.jpg",
         "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-        "Screenshot 2026-02-26 214133.png",
-        "room.png",
-        "Vadivelu.jpg",
-        "Home page img 2.webp",
-        "Home page img 1.webp",
-        "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-        "Screenshot 2026-02-26 214133.png",
+        "green-marble-floor-tile-texture-seamless.jpg",
+        "Screenshot 2026-03-09 220220.png",
+        "bathroom-floor-tiles-png-transparent-png.png",
+        "114-herringbone-parquet-pbr-texture-seamless-20251124195346.jpg",
+        "112-herringbone-parquet-pbr-texture-seamless.jpg",
+        "109-herringbone-parquet-pbr-texture-seamless.jpg",
+        "106-decorated-floral-parquet-texture-seamless.jpg",
+        "104-decorated-floral-parquet-texture-seamless.jpg",
+        "0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
+        "97-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
+        "95-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
+        "15-cobblestone-pavement-pbr-texture-seamless.jpg",
+        "12-cobblestone-pavement-pbr-texture-seamless.jpg",
+        "11-garage-paving-pbr-texture-seamless.jpg",
       ];
 
       const gallery = document.getElementById("gallery");
@@ -292,30 +406,25 @@
       const page2 = document.getElementById("page2");
 
       const selectedImg = document.getElementById("selectedImg");
-
       const grid = document.getElementById("grid");
 
       /* ROOM GALLERY */
 
       rooms.forEach((src) => {
         const img = document.createElement("img");
-
         img.src = src;
-
         img.className = "thumb";
 
         img.onclick = () => {
           selectedImg.src = src;
-
           page1.classList.add("hidden");
-
           page2.classList.remove("hidden");
         };
 
         gallery.appendChild(img);
       });
 
-      /* SAFE IMAGE LOADER */
+      /* APPLY TILE */
 
       function applyTile(url) {
         const img = new Image();
@@ -324,10 +433,6 @@
           document.querySelectorAll(".cell").forEach((cell) => {
             cell.style.backgroundImage = `url("${url}")`;
           });
-        };
-
-        img.onerror = function () {
-          alert("This tile image format is not supported by your browser.");
         };
 
         img.src = url;
@@ -339,12 +444,9 @@
         const img = document.createElement("img");
 
         img.src = src;
-
         img.className = "tile-thumb";
 
-        img.onclick = () => {
-          applyTile(src);
-        };
+        img.onclick = () => applyTile(src);
 
         tileCarousel.appendChild(img);
       });
@@ -378,37 +480,6 @@ rotateY(${tiltY}deg)
 rotateZ(${rotate}deg)
 `;
       }
-
-      /* ZOOM LOCK */
-
-      document.addEventListener(
-        "wheel",
-        function (e) {
-          if (e.ctrlKey) {
-            e.preventDefault();
-          }
-        },
-        { passive: false },
-      );
-
-      document.addEventListener("keydown", function (e) {
-        if (
-          e.ctrlKey &&
-          (e.key === "+" || e.key === "-" || e.key === "=" || e.key === "0")
-        ) {
-          e.preventDefault();
-        }
-      });
-
-      document.addEventListener(
-        "touchmove",
-        function (e) {
-          if (e.scale !== 1) {
-            e.preventDefault();
-          }
-        },
-        { passive: false },
-      );
     </script>
   </body>
 </html>
