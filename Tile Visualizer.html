@@ -27,8 +27,6 @@
         color: #333;
       }
 
-      /* HEADER */
-
       header {
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         color: white;
@@ -37,8 +35,6 @@
         font-size: 22px;
         font-weight: 600;
       }
-
-      /* WRAPPER */
 
       .wrapper {
         max-width: 1200px;
@@ -77,7 +73,7 @@
         max-width: 900px;
         margin: auto;
         aspect-ratio: 4/3;
-        background: rgb(0, 0, 0);
+        background: white;
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -100,8 +96,7 @@
       }
 
       .cell {
-        border: 0.05px solid rgba(255, 255, 255, 0.15);
-
+        border: none;
         background-size: cover;
         background-position: center;
         background-repeat: repeat;
@@ -145,20 +140,45 @@
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
       }
 
+      /* TILE BOX */
+
+      .tile-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      /* TILE IMAGE */
+
       .tile-thumb {
         width: 110px;
         height: 110px;
-        border-radius: 8px;
-        cursor: pointer;
-        border: 3px solid transparent;
         object-fit: cover;
-        transition: 0.3s;
-        flex-shrink: 0;
+        border-radius: 8px;
+        border: 3px solid transparent;
       }
 
-      .tile-thumb:hover {
+      /* TILE NAME */
+
+      .tile-name {
+        font-size: 13px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      /* ACTIVE TILE */
+
+      .tile-box.active {
+        background: #f1e6ff;
+      }
+
+      .tile-box.active .tile-thumb {
         border-color: var(--primary);
-        transform: scale(1.05);
       }
 
       /* BUTTONS */
@@ -207,7 +227,7 @@
         margin-bottom: 6px;
       }
 
-      /* MODERN SLIDER */
+      /* SLIDERS */
 
       input[type="range"] {
         width: 100%;
@@ -217,8 +237,6 @@
         outline: none;
       }
 
-      /* slider thumb */
-
       input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 18px;
@@ -227,11 +245,6 @@
         background: white;
         border: 3px solid var(--primary);
         cursor: pointer;
-        transition: 0.2s;
-      }
-
-      input[type="range"]::-webkit-slider-thumb:hover {
-        transform: scale(1.2);
       }
 
       .back-btn {
@@ -288,13 +301,7 @@
 
       <div id="page2" class="hidden">
         <div class="container">
-          <div id="grid">
-            <script>
-              for (let i = 0; i < 20; i++) {
-                document.write('<div class="cell"></div>');
-              }
-            </script>
-          </div>
+          <div id="grid"></div>
 
           <img id="selectedImg" />
         </div>
@@ -363,40 +370,81 @@
     </div>
 
     <script>
-      /* ADD ROOM IMAGES */
+      /* GRID CELLS */
 
-      const rooms = [
-        "room.png",
-        "room.png",
-        "room.png",
-        "room.png",
-        "room.png",
-      ];
+      const grid = document.getElementById("grid");
 
-      /* ADD TILE IMAGES */
+      for (let i = 0; i < 20; i++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+
+        grid.appendChild(cell);
+      }
+
+      /* ROOM IMAGES */
+
+      const rooms = ["room.png", "room.png", "room.png", "room.png"];
+
+      /* TILE IMAGES WITH NAMES */
 
       const tiles = [
-        "Tile Image 1.jpg",
-        "Tile Image 2.jpg",
-        "Tile Image 3.jpg",
-        "Tile Image 4.jpg",
-        "Home page img 1.webp",
-        "blue-marble-floor-tile-texture-seamless.jpg",
-        "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-        "green-marble-floor-tile-texture-seamless.jpg",
-        "Screenshot 2026-03-09 220220.png",
-        "bathroom-floor-tiles-png-transparent-png.png",
-        "114-herringbone-parquet-pbr-texture-seamless-20251124195346.jpg",
-        "112-herringbone-parquet-pbr-texture-seamless.jpg",
-        "109-herringbone-parquet-pbr-texture-seamless.jpg",
-        "106-decorated-floral-parquet-texture-seamless.jpg",
-        "104-decorated-floral-parquet-texture-seamless.jpg",
-        "0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
-        "97-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
-        "95-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
-        "15-cobblestone-pavement-pbr-texture-seamless.jpg",
-        "12-cobblestone-pavement-pbr-texture-seamless.jpg",
-        "11-garage-paving-pbr-texture-seamless.jpg",
+        { name: "Tile 1", src: "Tile Image 1.jpg" },
+        { name: "Tile 2", src: "Tile Image 2.jpg" },
+        { name: "Tile 3", src: "Tile Image 3.jpg" },
+        { name: "Tile 4", src: "Tile Image 4.jpg" },
+        { name: "Tile 5", src: "Home page img 1.webp" },
+        { name: "Tile 6", src: "blue-marble-floor-tile-texture-seamless.jpg" },
+        {
+          name: "Tile 7",
+          src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+        },
+        { name: "Tile 8", src: "green-marble-floor-tile-texture-seamless.jpg" },
+        { name: "Tile 9", src: "Screenshot 2026-03-09 220220.png" },
+        {
+          name: "Tile 10",
+          src: "bathroom-floor-tiles-png-transparent-png.png",
+        },
+        {
+          name: "Tile 11",
+          src: "114-herringbone-parquet-pbr-texture-seamless-20251124195346.jpg",
+        },
+        {
+          name: "Tile 7",
+          src: "112-herringbone-parquet-pbr-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 8",
+          src: "109-herringbone-parquet-pbr-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 9",
+          src: "106-decorated-floral-parquet-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 10",
+          src: "104-decorated-floral-parquet-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 11",
+          src: "0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 12",
+          src: "97-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 13",
+          src: "95-decorative-tiles-agata-effect-pbr-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 14",
+          src: "15-cobblestone-pavement-pbr-texture-seamless.jpg",
+        },
+        {
+          name: "Tile 15",
+          src: "12-cobblestone-pavement-pbr-texture-seamless.jpg",
+        },
+        { name: "Tile 16", src: "11-garage-paving-pbr-texture-seamless.jpg" },
       ];
 
       const gallery = document.getElementById("gallery");
@@ -406,7 +454,6 @@
       const page2 = document.getElementById("page2");
 
       const selectedImg = document.getElementById("selectedImg");
-      const grid = document.getElementById("grid");
 
       /* ROOM GALLERY */
 
@@ -427,35 +474,46 @@
       /* APPLY TILE */
 
       function applyTile(url) {
-        const img = new Image();
-
-        img.onload = function () {
-          document.querySelectorAll(".cell").forEach((cell) => {
-            cell.style.backgroundImage = `url("${url}")`;
-          });
-        };
-
-        img.src = url;
+        document.querySelectorAll(".cell").forEach((cell) => {
+          cell.style.backgroundImage = `url("${url}")`;
+        });
       }
 
       /* TILE CAROUSEL */
 
-      tiles.forEach((src) => {
-        const img = document.createElement("img");
+      tiles.forEach((tile) => {
+        const box = document.createElement("div");
+        box.className = "tile-box";
 
-        img.src = src;
+        const img = document.createElement("img");
+        img.src = tile.src;
         img.className = "tile-thumb";
 
-        img.onclick = () => applyTile(src);
+        const name = document.createElement("div");
+        name.className = "tile-name";
+        name.innerText = tile.name;
 
-        tileCarousel.appendChild(img);
+        box.appendChild(img);
+        box.appendChild(name);
+
+        box.onclick = () => {
+          applyTile(tile.src);
+
+          document.querySelectorAll(".tile-box").forEach((b) => {
+            b.classList.remove("active");
+          });
+
+          box.classList.add("active");
+        };
+
+        tileCarousel.appendChild(box);
       });
 
-      function scrollTiles(value) {
-        tileCarousel.scrollLeft += value;
+      function scrollTiles(val) {
+        tileCarousel.scrollLeft += val;
       }
 
-      /* GRID CONTROLS */
+      /* CONTROLS */
 
       const controls = ["moveX", "moveY", "scale", "tiltX", "tiltY", "rotate"];
 
