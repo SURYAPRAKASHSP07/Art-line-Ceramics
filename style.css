@@ -137,6 +137,9 @@ section {
 .light {
   background: #f3f0ff;
 }
+.light p {
+  font-size: 15px;
+}
 
 /* GRID */
 .grid {
@@ -210,7 +213,7 @@ a {
 }
 
 /* ================= SERVICES HOVER EFFECT ================= */
-#services .service {
+#services .service-card {
   position: relative;
   overflow: hidden;
   transition:
@@ -219,7 +222,7 @@ a {
 }
 
 /* Shine animation layer */
-#services .service::before {
+#services .service-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -230,23 +233,23 @@ a {
     transparent
   );
   transform: translateX(-120%);
-  transition: transform 0.6s ease;
+  transition: transform 0.5s ease;
 }
 
 /* Hover effect */
-#services .service:hover {
+#services .service-card:hover {
   cursor: pointer;
   transform: translateY(-8px) scale(1.05);
   box-shadow: 0 18px 35px #b984db;
 }
 
 /* Shine move */
-#services .service:hover::before {
+#services .service-card:hover::before {
   transform: translateX(120%);
 }
 
 /* Press effect */
-#services .service:active {
+#services .service-card:active {
   transform: scale(0.97);
 }
 
@@ -819,33 +822,6 @@ footer {
   margin-bottom: 16px;
 }
 
-/* GLITTER STARS */
-
-.stars {
-  font-size: 28px;
-  color: #ffd700;
-  animation: starGlow 2s infinite alternate;
-}
-
-/* STAR ANIMATION */
-
-@keyframes starGlow {
-  0% {
-    text-shadow: 0 0 3px #ffd700;
-  }
-
-  50% {
-    text-shadow:
-      0 0 6px #ffd700,
-      0 0 10px #ffd700,
-      0 0 15px #fff3a0;
-  }
-
-  100% {
-    text-shadow: 0 0 4px #ffd700;
-  }
-}
-
 /* BUTTON */
 
 .btn-primary {
@@ -878,7 +854,7 @@ footer {
 }
 
 .offer-content span {
-  color: #ff7b00;
+  color: #7209b7;
   font-weight: bold;
 }
 
@@ -893,14 +869,14 @@ footer {
   margin-top: 25px;
   padding: 12px 35px;
   border-radius: 30px;
-  background: #ff7b00;
+  background: #7209b7;
   color: #fff;
   text-decoration: none;
   transition: 0.3s ease;
 }
 
 .btn-offer:hover {
-  background: #ff3c00;
+  background: #b984db;
   transform: translateY(-4px);
 }
 
@@ -912,5 +888,68 @@ footer {
 
   .offer-content h2 {
     font-size: 26px;
+  }
+}
+
+/* SERVICES SECTION */
+
+#services {
+  padding: 70px 20px;
+  background: #f6f2fb;
+  text-align: center;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #7209b7;
+}
+
+/* GRID */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* SERVICE CARD */
+
+.service-card {
+  background: #7209b7;
+  padding: 15px 10px;
+  border-radius: 12px;
+  color: white;
+  transition: 0.35s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ICON */
+
+.service-card img {
+  width: 70px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* TEXT */
+
+.service-card h3 {
+  font-size: 18px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 }
