@@ -26,16 +26,15 @@
         background: var(--bg);
       }
 
-      /* HEADER */
-
       header {
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         color: white;
         padding: 18px;
         text-align: center;
         font-size: 22px;
-        font-weight: 600;
       }
+
+      /* PAGE WRAPPER */
 
       .wrapper {
         max-width: 1200px;
@@ -47,49 +46,33 @@
 
       #gallery {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 25px;
         margin-top: 25px;
       }
 
-      /* ROOM CARD */
-
       .room-card {
-        background: white;
-        border-radius: 14px;
-        overflow: hidden;
+        text-align: center;
         cursor: pointer;
+      }
 
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-
+      .thumb {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
         transition: 0.3s;
       }
 
-      .room-card:hover {
-        transform: translateY(-6px);
-
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      .thumb:hover {
+        transform: scale(1.05);
       }
-
-      .room-image {
-        width: 100%;
-        height: 210px;
-        object-fit: cover;
-      }
-
-      /* ROOM NAME */
 
       .room-name {
-        padding: 12px;
-
-        font-size: 16px;
+        margin-top: 8px;
         font-weight: 600;
-
-        text-align: center;
-
-        color: #333;
-
-        background: #faf7ff;
+        font-size: 15px;
       }
 
       /* VISUALIZER */
@@ -98,28 +81,19 @@
         position: relative;
         max-width: 900px;
         margin: auto;
-
         aspect-ratio: 4/3;
-
         background: white;
-
         border-radius: 12px;
-
         overflow: hidden;
-
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-
         margin-top: 30px;
       }
 
       #selectedImg {
         position: absolute;
-
         width: 100%;
         height: 100%;
-
         object-fit: cover;
-
         z-index: 2;
       }
 
@@ -127,27 +101,23 @@
 
       #grid {
         position: absolute;
-
         display: grid;
-
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
-
         width: 300px;
         height: 200px;
-
         z-index: 1;
+        transform-origin: center;
       }
 
       .cell {
         border: none;
-
         background-size: cover;
-
         background-repeat: repeat;
+        background-position: center;
       }
 
-      /* CAROUSEL */
+      /* TILE CAROUSEL */
 
       .carousel-wrapper {
         margin-top: 30px;
@@ -167,52 +137,29 @@
         background: white;
         border-radius: 10px;
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-
-        /* smooth finger scrolling */
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-
-        /* hide scrollbar */
-        scrollbar-width: none; /* Firefox */
-      }
-
-      .carousel::-webkit-scrollbar {
-        display: none; /* Chrome, Edge, Safari */
       }
 
       .tile-box {
         display: flex;
-
         flex-direction: column;
-
         align-items: center;
-
         padding: 8px;
-
         border-radius: 10px;
-
         cursor: pointer;
-
         transition: 0.3s;
       }
 
       .tile-thumb {
         width: 110px;
-
         height: 110px;
-
         object-fit: cover;
-
         border-radius: 8px;
-
         border: 3px solid transparent;
       }
 
       .tile-name {
         font-size: 13px;
-
         font-weight: 600;
-
         text-align: center;
       }
 
@@ -228,15 +175,10 @@
 
       button {
         background: var(--primary);
-
         color: white;
-
         border: none;
-
         padding: 10px;
-
         border-radius: 6px;
-
         cursor: pointer;
       }
 
@@ -248,22 +190,49 @@
 
       .controls {
         margin-top: 35px;
-
         background: white;
-
         padding: 25px;
-
         border-radius: 12px;
-
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls h3 {
+        margin-bottom: 15px;
+        color: var(--primary);
       }
 
       .control-grid {
         display: grid;
-
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
         gap: 20px;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .control-group label {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 900px) {
+        #gallery {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 500px) {
+        #gallery {
+          grid-template-columns: 1fr;
+        }
       }
 
       .hidden {
@@ -282,17 +251,11 @@
         <h2>Select Room</h2>
 
         <div id="gallery"></div>
-        <a
-          style="
-            text-decoration: none;
-            color: #7209b7;
-            background-color: #b984db;
-          "
-          href="index.html"
-          ><button style="margin-top: 20px; font-weight: bold; padding: 15px">
-            Back
-          </button></a
-        >
+        <button>
+          <a style="text-decoration: none; color: white" href="index.html"
+            >Back</a
+          >
+        </button>
       </div>
 
       <!-- PAGE 2 -->
@@ -304,10 +267,12 @@
           <img id="selectedImg" />
         </div>
 
+        <!-- TILE CAROUSEL -->
+
         <div class="carousel-wrapper">
           <h3>Select Tile</h3>
 
-          <div style="margin-top: 15px" class="carousel-container">
+          <div class="carousel-container">
             <button onclick="scrollTiles(-200)">◀</button>
 
             <div class="carousel" id="tileCarousel"></div>
@@ -316,31 +281,51 @@
           </div>
         </div>
 
+        <!-- CONTROLS -->
+
         <div class="controls">
           <h3>Adjust Tiles</h3>
 
-          <div style="margin-top: 15px" class="control-grid">
-            <input type="range" id="moveX" min="-500" max="500" value="0" />
-            <input type="range" id="moveY" min="-500" max="500" value="0" />
-            <input
-              type="range"
-              id="scale"
-              min="0.2"
-              max="3"
-              step="0.1"
-              value="1"
-            />
-            <input type="range" id="tiltX" min="-90" max="90" value="0" />
-            <input type="range" id="tiltY" min="-90" max="90" value="0" />
-            <input type="range" id="rotate" min="-180" max="180" value="0" />
+          <div class="control-grid">
+            <div class="control-group">
+              <label>Move X</label>
+              <input type="range" id="moveX" min="-500" max="500" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Move Y</label>
+              <input type="range" id="moveY" min="-500" max="500" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Scale</label>
+              <input
+                type="range"
+                id="scale"
+                min="0.2"
+                max="3"
+                step="0.1"
+                value="1"
+              />
+            </div>
+
+            <div class="control-group">
+              <label>Tilt X</label>
+              <input type="range" id="tiltX" min="-90" max="90" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Tilt Y</label>
+              <input type="range" id="tiltY" min="-90" max="90" value="0" />
+            </div>
+
+            <div class="control-group">
+              <label>Rotation</label>
+              <input type="range" id="rotate" min="-180" max="180" value="0" />
+            </div>
           </div>
 
-          <button
-            style="margin-top: 20px; font-weight: bold; padding: 15px"
-            onclick="location.reload()"
-          >
-            Back
-          </button>
+          <button onclick="location.reload()">Back</button>
         </div>
       </div>
     </div>
@@ -357,165 +342,111 @@
         grid.appendChild(cell);
       }
 
+      /* SAVE SELECTED TILE */
+
+      let currentTile = "";
+
       /* ROOM DATA */
 
       const rooms = [
         {
           name: "Living Room",
-          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+          image: "room.png",
+
           tiles: [
-            { name: "Marble White", src: "Tile Image 1.jpg" },
-            { name: "Royal Grey", src: "Tile Image 2.jpg" },
-            { name: "Italian Stone", src: "Tile Image 4.jpg" },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
             {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Marble White",
+              src: "Visualizer Images/Living Room Floor/0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Marble White",
+              src: "Visualizer Images/Living Room Floor/0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Italian Grey",
+              src: "Visualizer Images/Living Room Floor/104-decorated-floral-parquet-texture-seamless.jpg",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Royal Beige",
+              src: "Visualizer Images/Living Room Floor/106-decorated-floral-parquet-texture-seamless.jpg",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+              name: "Marble White",
+              src: "Visualizer Images/Living Room Floor/Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+            },
+            {
+              name: "Italian Grey",
+              src: "Visualizer Images/Living Room Floor/Tile Image 1.jpg",
+            },
+            {
+              name: "Royal Beige",
+              src: "Visualizer Images/Living Room Floor/Tile Image 4.jpg",
+            },
+            {
+              name: "Marble White",
+              src: "Visualizer Images/Living Room Floor/Untitled-2.jpg.jpeg",
+            },
+            {
+              name: "Marble White",
+              src: "Visualizer Images/Living Room Floor/0099-wood-and-marble-parquet-decorated-texture-seamless.jpg",
+            },
+            {
+              name: "Italian Grey",
+              src: "Visualizer Images/Living Room Floor/104-decorated-floral-parquet-texture-seamless.jpg",
             },
           ],
         },
 
         {
           name: "Kitchen",
-          image: "https://images.unsplash.com/photo-1592928302636-c83cf1e1c887",
+          image: "room.png",
+
           tiles: [
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
             {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Kitchen Glossy",
+              src: "Visualizer Images/Kitchen Wall/109-herringbone-parquet-pbr-texture-seamless.jpg",
             },
             {
               name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              src: "Visualizer Images/Kitchen Wall/112-herringbone-parquet-pbr-texture-seamless.jpg",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Kitchen Glossy",
+              src: "Visualizer Images/Kitchen Wall/114-herringbone-parquet-pbr-texture-seamless-20251124195346.jpg",
             },
             {
               name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              src: "Visualizer Images/Kitchen Wall/Screenshot 2026-03-09 220220.png",
             },
             {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Kitchen Glossy",
+              src: "Visualizer Images/Kitchen Wall/109-herringbone-parquet-pbr-texture-seamless.jpg",
             },
             {
               name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+              src: "Visualizer Images/Kitchen Wall/112-herringbone-parquet-pbr-texture-seamless.jpg",
             },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
             {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Kitchen Glossy",
+              src: "Visualizer Images/Kitchen Wall/114-herringbone-parquet-pbr-texture-seamless-20251124195346.jpg",
             },
             {
               name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
+              src: "Visualizer Images/Kitchen Wall/Screenshot 2026-03-09 220220.png",
             },
           ],
         },
 
         {
           name: "Bathroom",
-          image: "https://images.unsplash.com/photo-1618220179428-22790b461013",
+          image: "room.png",
+
           tiles: [
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
             {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
+              name: "Bath Marble",
+              src: "",
             },
-            {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
-            },
-            {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
-            },
-            {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
-            },
-            {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
-            { name: "Kitchen Glossy", src: "Home page img 1.webp" },
-            {
-              name: "Kitchen Pattern",
-              src: "blue-marble-floor-tile-texture-seamless.jpg",
-            },
-            {
-              name: "Kitchen Brick",
-              src: "Glam Up Your Screen with White Aesthetic Wallpapers.jpg",
-            },
+            { name: "" },
           ],
         },
       ];
@@ -528,7 +459,7 @@
 
       const selectedImg = document.getElementById("selectedImg");
 
-      /* ROOM GALLERY */
+      /* CREATE ROOM GALLERY */
 
       rooms.forEach((room) => {
         const card = document.createElement("div");
@@ -536,7 +467,7 @@
 
         const img = document.createElement("img");
         img.src = room.image;
-        img.className = "room-image";
+        img.className = "thumb";
 
         const name = document.createElement("div");
         name.className = "room-name";
@@ -547,7 +478,6 @@
 
         card.onclick = () => {
           selectedImg.src = room.image;
-
           loadTiles(room.tiles);
 
           page1.classList.add("hidden");
@@ -580,9 +510,9 @@
           box.onclick = () => {
             applyTile(tile.src);
 
-            document
-              .querySelectorAll(".tile-box")
-              .forEach((b) => b.classList.remove("active"));
+            document.querySelectorAll(".tile-box").forEach((b) => {
+              b.classList.remove("active");
+            });
 
             box.classList.add("active");
           };
@@ -591,14 +521,50 @@
         });
       }
 
+      /* APPLY TILE */
+
       function applyTile(url) {
+        currentTile = url;
+
         document.querySelectorAll(".cell").forEach((cell) => {
-          cell.style.backgroundImage = `url(${url})`;
+          cell.style.backgroundImage = `url("${url}")`;
         });
       }
 
-      function scrollTiles(v) {
-        tileCarousel.scrollLeft += v;
+      /* SCROLL */
+
+      function scrollTiles(val) {
+        tileCarousel.scrollLeft += val;
+      }
+
+      /* CONTROLS */
+
+      ["moveX", "moveY", "scale", "tiltX", "tiltY", "rotate"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", updateGrid);
+      });
+
+      function updateGrid() {
+        const x = document.getElementById("moveX").value;
+        const y = document.getElementById("moveY").value;
+        const scale = document.getElementById("scale").value;
+        const tiltX = document.getElementById("tiltX").value;
+        const tiltY = document.getElementById("tiltY").value;
+        const rotate = document.getElementById("rotate").value;
+
+        grid.style.transform = `translate(${x}px,${y}px)
+      scale(${scale})
+      perspective(1000px)
+      rotateX(${tiltX}deg)
+      rotateY(${tiltY}deg)
+      rotateZ(${rotate}deg)`;
+
+        /* REAPPLY TILE (FIX DISAPPEAR BUG) */
+
+        if (currentTile != "") {
+          document.querySelectorAll(".cell").forEach((cell) => {
+            cell.style.backgroundImage = `url("${currentTile}")`;
+          });
+        }
       }
     </script>
   </body>
