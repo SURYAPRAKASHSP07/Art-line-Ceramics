@@ -70,3 +70,52 @@ window.addEventListener("scroll", () => {
     footer.style.transform = "translateY(0)";
   }
 });
+let index = 0;
+const slides = document.getElementById("slides");
+const totalSlides = 5;
+const dotsContainer = document.getElementById("dots");
+
+/* CREATE DOTS */
+for(let i=0;i<totalSlides;i++){
+let dot=document.createElement("span");
+dot.onclick=()=>goToSlide(i);
+dotsContainer.appendChild(dot);
+}
+updateDots();
+
+/* NEXT */
+function nextSlide(){
+index = (index + 1) % totalSlides;
+updateSlide();
+}
+
+/* PREV */
+function prevSlide(){
+index = (index - 1 + totalSlides) % totalSlides;
+updateSlide();
+}
+
+/* GO TO */
+function goToSlide(i){
+index = i;
+updateSlide();
+}
+
+/* UPDATE */
+function updateSlide(){
+slides.style.transform = `translateX(-${index * 100}%)`;
+updateDots();
+}
+
+/* DOT ACTIVE */
+function updateDots(){
+let dots = dotsContainer.children;
+for(let i=0;i<dots.length;i++){
+dots[i].classList.remove("active");
+}
+dots[index].classList.add("active");
+}
+
+/* AUTO SLIDE */
+setInterval(nextSlide,4000);
+
